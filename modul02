@@ -1,0 +1,57 @@
+import java.util.Arrays;
+
+public class ColumnSumFinder {
+
+    public static void main(String[] args) {
+        int[][] matrix = {
+            {1, 5, 3, 7},
+            {4, 8, 2, 6},
+            {9, 0, 7, 1}
+        };
+
+        int minColumnSum = findMinColumnSum(matrix);//метод для розв. задачі
+
+        // Вивід
+        if (minColumnSum != Integer.MAX_VALUE) {
+            System.out.println("Найменша сума серед усіх стовпців: " + minColumnSum);
+        } else {
+            System.out.println("Масив порожній або має некоректну структуру.");
+        }
+    }
+    public static int findMinColumnSum(int[][] matrix) {
+        if (matrix == null || matrix.length == 0) {
+            return Integer.MAX_VALUE;
+        }
+
+        int rows = matrix.length;
+        if (matrix[0] == null || matrix[0].length == 0) {
+             return Integer.MAX_VALUE;
+        }
+        // Кількість стовпців (прямокут)
+        int cols = matrix[0].length;
+
+        // Масив для save сум кожн. стовп.
+        int[] columnSums = new int[cols];
+        // ініц. мінімал.суми великим чис.
+        int minSum = Integer.MAX_VALUE;
+
+        for (int j = 0; j < cols; j++) { // Зовнішній цикл - стовпці (від 0 до cols-1)
+            int currentColumnSum = 0;
+            for (int i = 0; i < rows; i++) { // Внутрішній цикл - рядки (від 0 до rows-1)
+                currentColumnSum += matrix[i][j];
+            }
+            // Зберігаємо суму стовпця
+            columnSums[j] = currentColumnSum;
+            
+            // Визначення найменшого значення серед цих сум
+            if (currentColumnSum < minSum) {
+                minSum = currentColumnSum;
+            }
+        }
+
+        // Виведення сум стовпців
+        System.out.println("Суми стовпців: " + Arrays.toString(columnSums));
+
+        return minSum;
+    }
+}
