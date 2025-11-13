@@ -1,0 +1,126 @@
+import static java.lang.StrictMath.pow;
+import java.util.Scanner;
+
+// Абстрактний клас для об'ємних тіл
+abstract class Solid {
+    abstract double GetVolume();
+}
+
+// Клас Піраміда
+class Pyramid extends Solid {
+    public double A;      // довжина сторони основи
+    protected double H;   // висота
+
+    Pyramid(double a, double h) {
+        this.A = a;
+        this.H = h;
+    }
+
+    public void setA(double a) {
+        this.A = a;
+    }
+
+    public void setH(double h) {
+        this.H = h;
+    }
+
+    public void GetH() {
+        System.out.println(H);
+    }
+
+    public void GetA() {
+        System.out.println(A);
+    }
+
+    @Override
+    double GetVolume() {
+        double x = (1.0 / 3.0) * pow(A, 2) * H; // об'єм піраміди (A^2 * H / 3)
+        return x;
+    }
+
+    boolean IsEqual(Pyramid p) {
+        return GetVolume() == p.GetVolume();
+    }
+}
+
+// Клас Сфера
+class Sphere extends Solid {
+    private double R; // радіус
+
+    Sphere(double r) {
+        this.R = r;
+    }
+
+    public void setR(double r) {
+        this.R = r;
+    }
+
+    public void GetR() {
+        System.out.println(R);
+    }
+
+    @Override
+    double GetVolume() {
+        return (4.0 / 3.0) * 3.14 * pow(R, 3); // об'єм сфери
+    }
+
+    boolean IsEqual(Sphere s) {
+        return GetVolume() == s.GetVolume();
+    }
+}
+
+// Головний клас з main
+public class lab4 {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+
+        // Піраміда 1
+        System.out.println("Enter the length of Pyramid's base side: ");
+        double A = console.nextDouble();
+
+        System.out.println("Enter the Pyramid's height: ");
+        double H = console.nextDouble();
+
+        Pyramid pyramid = new Pyramid(A, H);
+
+        System.out.print("Pyramid's Volume: ");
+        System.out.println(pyramid.GetVolume());
+
+        // Піраміда 2
+        System.out.println("Enter the length of second Pyramid's base side: ");
+        double A2 = console.nextDouble();
+
+        System.out.println("Enter the second Pyramid's height: ");
+        double H2 = console.nextDouble();
+
+        Pyramid pyramid2 = new Pyramid(A2, H2);
+
+        System.out.print("Second Pyramid's Volume: ");
+        System.out.println(pyramid2.GetVolume());
+
+        System.out.print("Pyramids are equal: ");
+        System.out.println(pyramid.IsEqual(pyramid2));
+
+        // Сфера 1
+        System.out.println("Enter the radius of Sphere: ");
+        double R = console.nextDouble();
+
+        Sphere sphere = new Sphere(R);
+
+        System.out.print("Sphere's Volume: ");
+        System.out.println(sphere.GetVolume());
+
+        // Сфера 2
+        System.out.println("Enter the radius of second Sphere: ");
+        double R2 = console.nextDouble();
+
+        Sphere sphere2 = new Sphere(R2);
+
+        System.out.print("Second Sphere's Volume: ");
+        System.out.println(sphere2.GetVolume());
+
+        System.out.print("Spheres are equal: ");
+        System.out.println(sphere.IsEqual(sphere2));
+    }
+}
+
