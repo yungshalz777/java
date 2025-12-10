@@ -1,0 +1,82 @@
+import java.io.*;
+
+// Клас для шифрування/розшифрування методом Віженера
+public class Lab8 {
+
+    // Метод для шифрування тексту
+    public static String encode(String text, String key) {
+        StringBuilder result = new StringBuilder();
+        key = key.repeat((text.length() / key.length()) + 1);
+
+        for (int i = 0; i < text.length(); i++) {
+            char ch = text.charAt(i);
+            char k = Character.toLowerCase(key.charAt(i));
+            ch = (char) (ch + k); // Просте сумування кодів символів
+            result.append(ch);
+        }
+        return result.toString();
+    }
+
+    // Метод для розшифрування тексту
+    public static String decode(String text, String key) {
+        StringBuilder result = new StringBuilder();
+        key = key.repeat((text.length() / key.length()) + 1);
+
+        for (int i = 0; i < text.length(); i++) {
+            char ch = text.charAt(i);
+            char k = Character.toLowerCase(key.charAt(i));
+            ch = (char) (ch - k); // Віднімання кодів символів
+            result.append(ch);
+        }
+        return result.toString();
+    }
+
+    // Головний метод
+    public static void main(String[] args) {
+        String inputFile = "input.txt";
+        String encodedFile = "encoded.txt";
+        String decodedFile = "decoded.txt";
+        String key = "Сподарко Дмитро Ігорович";
+
+        try {
+            // Читання з файлу
+            BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+            StringBuilder inputText = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                inputText.append(line).append("\n");
+            }
+            reader.close();
+
+            // Шифрування тексту
+            String encodedText = encode(inputText.toString().trim(), key);
+
+            // Запис у файл encoded.txt
+            BufferedWriter writer = new BufferedWriter(new FileWriter(encodedFile));
+            writer.write(encodedText);
+            writer.close();
+
+            // Читання зашифрованого тексту
+            reader = new BufferedReader(new FileReader(encodedFile));
+            StringBuilder encodedInput = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                encodedInput.append(line).append("\n");
+            }
+            reader.close();
+
+            // Розшифрування тексту
+            String decodedText = decode(encodedInput.toString().trim(), key);
+
+            // Запис у файл decoded.txt
+            writer = new BufferedWriter(new FileWriter(decodedFile));
+            writer.write(decodedText);
+            writer.close();
+
+            System.out.println("Текст успішно зашифровано та розшифровано.");
+            System.out.println("Перевірте файли encoded.txt і decoded.txt.");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
