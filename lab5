@@ -1,61 +1,52 @@
 import static java.lang.StrictMath.pow;
 
 interface Solid {
-    double getVolume();            // Метод для отримання об'єму
-    void setVolume(double volume); // Можна реалізувати за потреби
+    double getVolume();
+    void setVolume(double volume);
 }
 
 // Клас Піраміда
 class Pyramid implements Solid {
-    private double a; // довжина сторони основи
-    private double h; // висота
+    private double a;
+    private double h;
 
     Pyramid(double a, double h) {
         this.a = a;
         this.h = h;
     }
 
-    // Сеттери
     public void setA(double a) { this.a = a; }
     public void setH(double h) { this.h = h; }
-
-    // Геттери
     public double getA() { return a; }
     public double getH() { return h; }
 
     @Override
     public double getVolume() {
-        // Об'єм правильно: (1/3) * площа основи * висота
-        // Припустимо, основа квадрат: площа = a^2
         return (1.0 / 3.0) * pow(a, 2) * h;
     }
 
-    // Порівняння об'ємів (з точністю eps)
     public boolean isEqual(Pyramid p) {
         double eps = 1e-6;
         return Math.abs(this.getVolume() - p.getVolume()) < eps;
     }
 
-    // setVolume для реалізації інтерфейсу (необов'язково)
     @Override
     public void setVolume(double volume) {
-        // Можна обчислити h з відомого об'єму: V = a^2*h/3 => h = 3*V/a^2
         this.h = (3 * volume) / pow(a, 2);
     }
 }
 
 // Клас Куля
 class Sphere implements Solid {
-    private double r; // радіус
+    private double r;
 
     Sphere(double r) { this.r = r; }
-
     public void setR(double r) { this.r = r; }
     public double getR() { return r; }
 
     @Override
     public double getVolume() {
-        return (4.0 / 3.0) * Math.PI * pow(r, 3); // використовуємо Math.PI
+        return (4.0 / 3.0) * Math.PI * pow(r, 3);
     }
 
     public boolean isEqual(Sphere s) {
@@ -65,7 +56,24 @@ class Sphere implements Solid {
 
     @Override
     public void setVolume(double volume) {
-        // Обчислюємо r з відомого об'єму: V = 4/3 * pi * r^3 => r = (3*V/(4*pi))^(1/3)
         this.r = pow((3 * volume) / (4 * Math.PI), 1.0/3.0);
+    }
+}
+
+// Головний клас для запуску
+public class lab5 {
+    public static void main(String[] args) {
+        Pyramid p1 = new Pyramid(3, 5);
+        Pyramid p2 = new Pyramid(3, 5);
+        Sphere s1 = new Sphere(2);
+        Sphere s2 = new Sphere(2);
+
+        System.out.println("Об'єм піраміди p1: " + p1.getVolume());
+        System.out.println("Об'єм піраміди p2: " + p2.getVolume());
+        System.out.println("Піраміди рівні: " + p1.isEqual(p2));
+
+        System.out.println("Об'єм кулі s1: " + s1.getVolume());
+        System.out.println("Об'єм кулі s2: " + s2.getVolume());
+        System.out.println("Кулі рівні: " + s1.isEqual(s2));
     }
 }
