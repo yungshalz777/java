@@ -1,0 +1,96 @@
+import java.io.*;
+import java.util.*;
+
+public class Lab6 {
+
+    public static void main(String[] args) throws Exception {
+
+        // Створюємо HashMap для зберігання областей та їх обласних центрів
+        Map<String, String> myCatalogRegions = new HashMap<String, String>();
+
+        try {
+            // BufferedReader для зручного вводу з консолі
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in, "CP1251"));
+
+            String regionName = null;   // Для назви області
+            String centerName = null;   // Для назви обласного центру
+            String option = null;       // Для режиму роботи програми
+
+            System.out.println("Каталог областей");
+
+            // Створюємо початковий каталог
+            myCatalogRegions.put("Львівська", "Львів");
+            myCatalogRegions.put("Волинська", "Луцьк");
+            myCatalogRegions.put("Миколаївська", "Миколаїв");
+            myCatalogRegions.put("Закарпатська", "Ужгород");
+            myCatalogRegions.put("Київська", "Київ");
+            myCatalogRegions.put("Луганська", "Луганськ");
+            myCatalogRegions.put("Одеська", "Одеса");
+            myCatalogRegions.put("Херсонська", "Херсон");
+            myCatalogRegions.put("Донецька", "Донецьк");
+            myCatalogRegions.put("Дніпропетровська", "Дніпро");
+
+            // Виводимо інформацію про каталог
+            if (!myCatalogRegions.isEmpty())
+                System.out.println("Кількість областей у каталозі = " + myCatalogRegions.size());
+
+            // Виводимо меню режимів роботи програми
+            System.out.println("0 - Вихід з програми");
+            System.out.println("1 - Пошук області у каталозі");
+            System.out.println("2 - Додавання області у каталог");
+            System.out.println("3 - Вилучення області з каталогу");
+            System.out.println("Вкажіть номер режиму роботи програми:");
+            option = br.readLine();
+
+            // Головний цикл роботи програми
+            do {
+
+                // Режим 1: Пошук області
+                while (option.equals("1")) {
+                    System.out.println("Для пошуку обласного центру введіть назву області:");
+                    regionName = br.readLine();
+                    if (myCatalogRegions.containsKey(regionName))
+                        System.out.println("Область " + regionName + " - " + myCatalogRegions.get(regionName));
+                    else
+                        System.out.println("Вибачте, такої області у каталозі не має");
+
+                    System.out.println("Вкажіть номер режиму роботи програми:");
+                    option = br.readLine();
+                }
+
+                // Режим 2: Додавання області
+                while (option.equals("2")) {
+                    System.out.println("Для занесення області у каталог введіть її назву:");
+                    regionName = br.readLine();
+
+                    System.out.println("Введіть назву обласного центру:");
+                    centerName = br.readLine();
+
+                    myCatalogRegions.put(regionName, centerName);
+
+                    System.out.println("Вкажіть номер режиму роботи програми:");
+                    option = br.readLine();
+                }
+
+                // Режим 3: Вилучення області
+                while (option.equals("3")) {
+                    System.out.println("Для вилучення області з каталогу введіть її назву:");
+                    regionName = br.readLine();
+
+                    if (myCatalogRegions.containsKey(regionName)) {
+                        System.out.println("Область " + regionName + " - " + myCatalogRegions.get(regionName) + " вилучено з каталогу");
+                        myCatalogRegions.remove(regionName);
+                    } else
+                        System.out.println("Вибачте, такої області у каталозі не має");
+
+                    System.out.println("Вкажіть номер режиму роботи програми:");
+                    option = br.readLine();
+                }
+
+            } while (!option.equals("0"));  // Вихід з програми
+
+        } catch (Exception e) {
+            System.out.println("Помилка: " + e);
+        }
+    }
+}
