@@ -1,0 +1,125 @@
+import java.io.*;
+import java.util.*;
+
+public class Lab7 {
+
+    public static void main(String[] args) {
+        List<Region> myCatalogRegions = new ArrayList<>();
+
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in, "CP1251"));
+            String s1 = null;
+            String s2 = null;
+            String s3 = null;
+
+            System.out.println("Каталог областей");
+
+            // Створення каталогу
+            myCatalogRegions.add(new Region("Львівська", "Львів"));
+            myCatalogRegions.add(new Region("Волинська", "Луцьк"));
+            myCatalogRegions.add(new Region("Миколаївська", "Миколаїв"));
+            myCatalogRegions.add(new Region("Закарпатська", "Ужгород"));
+            myCatalogRegions.add(new Region("Київська", "Київ"));
+            myCatalogRegions.add(new Region("Луганська", "Луганськ"));
+            myCatalogRegions.add(new Region("Одеська", "Одеса"));
+            myCatalogRegions.add(new Region("Херсонська", "Херсон"));
+            myCatalogRegions.add(new Region("Донецька", "Донецьк"));
+            myCatalogRegions.add(new Region("Дніпропетровська", "Дніпро"));
+
+            // Визначення наявності і кількості областей у каталозі
+            if (!myCatalogRegions.isEmpty())
+                System.out.println("Кількість областей у каталозі = " + myCatalogRegions.size());
+
+            System.out.println("0 - Режим виходу з програми");
+            System.out.println("1 - Режим пошуку областей у каталозі");
+            System.out.println("2 - Режим занесення областей у каталог");
+            System.out.println("3 - Режим вилучення областей з каталогу");
+            System.out.println("Вкажіть номер режиму роботи програми:");
+            s3 = br.readLine();
+
+            do {
+                // Пошук області у каталозі
+                while ("1".equals(s3)) {
+                    System.out.println("Для пошуку обласного центру введіть назву області:");
+                    s1 = br.readLine();
+
+                    Region found = null;
+                    for (Region region : myCatalogRegions) {
+                        if (region.getName().equals(s1)) {
+                            found = region;
+                            break;
+                        }
+                    }
+
+                    if (found != null)
+                        System.out.println("Область " + s1 + " - " + found.getCenter());
+                    else
+                        System.out.println("Вибачте, такої області у каталозі не має");
+
+                    System.out.println("Вкажіть номер режиму роботи програми:");
+                    s3 = br.readLine();
+                }
+
+                // Занесення області у каталог
+                while ("2".equals(s3)) {
+                    System.out.println("Для занесення області у каталог введіть її назву:");
+                    s1 = br.readLine();
+                    System.out.println("Введіть назву обласного центру:");
+                    s2 = br.readLine();
+
+                    myCatalogRegions.add(new Region(s1, s2));
+
+                    System.out.println("Вкажіть номер режиму роботи програми:");
+                    s3 = br.readLine();
+                }
+
+                // Вилучення області з каталогу
+                while ("3".equals(s3)) {
+                    System.out.println("Для вилучення області з каталогу введіть її назву:");
+                    s1 = br.readLine();
+
+                    Region toRemove = null;
+                    for (Region region : myCatalogRegions) {
+                        if (region.getName().equals(s1)) {
+                            toRemove = region;
+                            break;
+                        }
+                    }
+
+                    if (toRemove != null) {
+                        System.out.println("Область " + s1 + " - " + toRemove.getCenter() + " вилучено з каталогу");
+                        myCatalogRegions.remove(toRemove);
+                    } else {
+                        System.out.println("Вибачте, такої області у каталозі не має");
+                    }
+
+                    System.out.println("Вкажіть номер режиму роботи програми:");
+                    s3 = br.readLine();
+                }
+
+            } while (!"0".equals(s3));
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
+
+// Клас для зберігання даних про область
+class Region {
+    private String name;
+    private String center;
+
+    public Region(String name, String center) {
+        this.name = name;
+        this.center = center;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCenter() {
+        return center;
+    }
+}
