@@ -1,0 +1,29 @@
+import javax.swing.JFrame;
+import java.awt.*;
+
+public class Lab10 {
+
+    public static void main(String[] args) {
+        // Створення вікна
+        JFrame myWindow = new JFrame("Верхнє праве вікно");
+        myWindow.setSize(350, 450);
+
+        // Отримання розміру екрану
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // Розташування вікна у верхньому правому куті
+        myWindow.setLocation(screenSize.width - myWindow.getWidth(), 0);
+
+        // Видалення рамки та прозорість
+        myWindow.setUndecorated(true);
+        myWindow.setOpacity(0.5f);
+
+        // Відображення вікна
+        myWindow.setVisible(true);
+
+        // Вивід інформації про вікно
+        System.out.println(myWindow.getSize() + " Розмір Вікна");
+        System.out.println(myWindow.getLocation() + " Розміщення Вікна");
+        System.out.println(myWindow.getState() + " Стан Вікна");
+    }
+}
