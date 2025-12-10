@@ -1,0 +1,71 @@
+import java.io.*;
+import java.util.*;
+
+public class Lab9 {
+
+    public static void main(String[] args) throws IOException {
+        byte[] buf1 = createRandomArray(18, 20, 30);
+        byte[] buf2 = createRandomArray(18, 20, 30);
+        byte[] buf3 = createRandomArray(18, 20, 30);
+        byte[] buf4 = createRandomArray(18, 20, 30);
+        byte[] buf5 = createRandomArray(18, 20, 30);
+
+        System.out.println("Перший потік:");
+        printArray(buf1);
+        System.out.println("Другий потік:");
+        printArray(buf2);
+        System.out.println("Третій потік:");
+        printArray(buf3);
+        System.out.println("Четвертий потік:");
+        printArray(buf4);
+        System.out.println("П'ятий потік:");
+        printArray(buf5);
+
+        InputStream in1 = new ByteArrayInputStream(buf1);
+        InputStream in2 = new ByteArrayInputStream(buf2);
+        InputStream in3 = new ByteArrayInputStream(buf3);
+        InputStream in4 = new ByteArrayInputStream(buf4);
+        InputStream in5 = new ByteArrayInputStream(buf5);
+
+        Vector<InputStream> streams = new Vector<>();
+        streams.add(in1);
+        streams.add(in2);
+        streams.add(in3);
+        streams.add(in4);
+        streams.add(in5);
+
+        InputStream combinedStream = new SequenceInputStream(streams.elements());
+
+        System.out.println("Об'єднаний потік:");
+        int value;
+        int count = 0;
+        while ((value = combinedStream.read()) != -1) {
+            System.out.print(value + " ");
+            count++;
+        }
+        System.out.println("\nЗагальна кількість елементів = " + count);
+
+        in1.close();
+        in2.close();
+        in3.close();
+        in4.close();
+        in5.close();
+        combinedStream.close();
+    }
+
+    private static byte[] createRandomArray(int size, int min, int max) {
+        byte[] array = new byte[size];
+        Random random = new Random();
+        for (int i = 0; i < size; i++) {
+            array[i] = (byte) (random.nextInt(max - min + 1) + min);
+        }
+        return array;
+    }
+
+    private static void printArray(byte[] array) {
+        for (byte b : array) {
+            System.out.print(b + " ");
+        }
+        System.out.println();
+    }
+}
